@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article.title }} | AI-Solutions{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12">
+    <!-- Breadcrumbs -->
+    <div class="mb-8 text-sm">
+        <a href="{% url 'home' %}" class="text-blue-600 hover:text-blue-800">Home</a>
+        <span class="mx-2 text-gray-500">/</span>
+        <a href="{% url 'articles' %}" class="text-blue-600 hover:text-blue-800">Articles</a>
+        <span class="mx-2 text-gray-500">/</span>
+        <span class="text-gray-600">{{ article.title|truncatechars:30 }}</span>
+    </div>
+
+    <div class="max-w-4xl mx-auto">
+        <!-- Article Header -->
+        <div class="mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-4">{{ article.title }}</h1>
+            <div class="flex items-center text-gray-600 mb-6">
+                <div class="mr-6">
+                    <i class="fas fa-user mr-2"></i>
+                    {{ article.author.get_full_name|default:article.author.username }}
+                </div>
+                <div class="mr-6">
+                    <i class="fas fa-calendar-alt mr-2"></i>
+                    {{ article.created_at|date:"F d, Y" }}
+                </div>
+                {% if article.updated_at != article.created_at %}
+                <div>
+                    <i class="fas fa-edit mr-2"></i>
+                    Updated: {{ article.updated_at|date:"F d, Y" }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Featured Image -->
+        {% if article.image %}
+        <div class="mb-8">
+            <img src="{{ article.image.url }}" alt="{{ article.title }}" class="w-full h-auto rounded-lg shadow-md">
+        </div>
+        {% endif %}
+
+        <!-- Article Content -->
+        <div class="prose prose-lg max-w-none">
+            {{ article.content|linebreaks }}
+        </div>
+
+        <!-- Share Links -->
+        <div class="mt-12 pt-6 border-t border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Share this article</h3>
+            <div class="flex space-x-4">
+                <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ article.title }}" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-blue-600">
+                    <i class="fab fa-twitter fa-lg"></i>
+                </a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800">
+                    <i class="fab fa-facebook-f fa-lg"></i>
+                </a>
+                <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}&title={{ article.title }}" target="_blank" rel="noopener noreferrer" class="text-blue-700 hover:text-blue-900">
+                    <i class="fab fa-linkedin-in fa-lg"></i>
+                </a>
+                <a href="mailto:?subject={{ article.title }}&body=Check out this article: {{ request.build_absolute_uri }}" class="text-gray-600 hover:text-gray-800">
+                    <i class="fas fa-envelope fa-lg"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Related Articles (optional) -->
+        <div class="mt-12 pt-6 border-t border-gray-200">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6">You might also like</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {% for related_article in related_articles|slice:":3" %}
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    {% if related_article.image %}
+                    <img src="{{ related_article.image.url }}" alt="{{ related_article.title }}" class="w-full h-40 object-cover">
+                    {% else %}
+                    <div class="w-full h-40 bg-gray-200 flex items-center justify-center">
+                        <i class="fas fa-newspaper text-3xl text-gray-400"></i>
+                    </div>
+                    {% endif %}
+                    <div class="p-4">
+                        <a href="{% url 'article_detail' related_article.pk %}" class="block text-lg font-semibold text-gray-900 hover:text-blue-600 mb-2 transition">{{ related_article.title }}</a>
+                        <p class="text-sm text-gray-500">{{ related_article.created_at|date:"F d, Y" }}</p>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-span-3 text-center py-6">
+                    <p class="text-gray-500">No related articles available.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Back to Articles -->
+        <div class="mt-12 text-center">
+            <a href="{% url 'articles' %}" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <i class="fas fa-arrow-left mr-2"></i> Back to All Articles
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

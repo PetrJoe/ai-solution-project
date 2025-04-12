@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+
+{% block title %}AI-Solutions - AI-Powered Software Solutions{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-blue-600 to-indigo-800 text-white py-20">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Enhance Your Digital Employee Experience</h1>
+                <p class="text-xl mb-8">AI-powered software solutions designed to transform your workplace.</p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="{% url 'solutions' %}" class="bg-white text-blue-600 hover:bg-gray-100 px-6 py-3 rounded-md font-medium text-center transition">Explore Solutions</a>
+                    <a href="{% url 'request_demo' %}" class="bg-transparent hover:bg-white hover:text-blue-600 border-2 border-white px-6 py-3 rounded-md font-medium text-center transition">Request Demo</a>
+                </div>
+            </div>
+            <div class="md:w-1/2">
+                <img src="https://images.pexels.com/photos/355952/pexels-photo-355952.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=1" alt="AI Solutions" class="rounded-lg shadow-xl rounded-3xl">
+            </div>        
+        </div>
+    </div>
+</section>
+
+<!-- Featured Solutions -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold mb-2">Our AI-Powered Solutions</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Discover how our innovative solutions can transform your workplace and enhance employee productivity.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for solution in solutions %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden transition transform hover:-translate-y-1 hover:shadow-lg">
+                {% if solution.image %}
+                <img src="{{ solution.image.url }}" alt="{{ solution.title }}" class="w-full h-48 object-cover">
+                {% else %}
+                <img src="https://via.placeholder.com/400x200" alt="{{ solution.title }}" class="w-full h-48 object-cover">
+                {% endif %}
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">{{ solution.title }}</h3>
+                    <p class="text-gray-600 mb-4">{{ solution.description|truncatewords:20 }}</p>
+                    <a href="{% url 'solution_detail' solution.pk %}" class="text-blue-600 hover:text-blue-800 font-medium">Learn More →</a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-span-3 text-center py-8">
+                <p class="text-gray-500">No solutions available at the moment.</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-10">
+            <a href="{% url 'solutions' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium inline-block transition">View All Solutions</a>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="bg-gray-100 py-16">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold mb-2">What Our Clients Say</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Hear from businesses that have transformed their workplace with our AI solutions.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for testimonial in testimonials %}
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="flex items-center mb-4">
+                    {% if testimonial.image %}
+                    <img src="{{ testimonial.image.url }}" alt="{{ testimonial.name }}" class="w-12 h-12 rounded-full mr-4 object-cover">
+                    {% else %}
+                    <div class="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center mr-4">
+                        <span class="text-xl font-bold">{{ testimonial.name|first }}</span>
+                    </div>
+                    {% endif %}
+                    <div>
+                        <h4 class="font-bold">{{ testimonial.name }}</h4>
+                        <p class="text-gray-600 text-sm">{{ testimonial.company }}</p>
+                    </div>
+                </div>
+                <p class="text-gray-700">"{{ testimonial.content|truncatewords:30 }}"</p>
+            </div>
+            {% empty %}
+            <div class="col-span-3 text-center py-8">
+                <p class="text-gray-500">No testimonials available at the moment.</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-10">
+            <a href="{% url 'testimonials' %}" class="text-blue-600 hover:text-blue-800 font-medium">View All Testimonials →</a>
+        </div>
+    </div>
+</section>
+
+<!-- Upcoming Events -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold mb-2">Upcoming Events</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Join us at our upcoming events to learn more about our AI solutions.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for event in upcoming_events %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                {% if event.image %}
+                <img src="{{ event.image.url }}" alt="{{ event.title }}" class="w-full h-48 object-cover">
+                {% else %}
+                <img src="https://via.placeholder.com/400x200" alt="{{ event.title }}" class="w-full h-48 object-cover">
+                {% endif %}
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">
+                            {{ event.date|date:"F j, Y" }}
+                        </div>
+                        <div class="ml-2 text-gray-500 text-sm">
+                            {{ event.date|date:"g:i A" }}
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">{{ event.title }}</h3>
+                    <p class="text-gray-600 mb-2">{{ event.description|truncatewords:15 }}</p>
+                    <p class="text-gray-500 mb-4"><i class="fas fa-map-marker-alt mr-2"></i>{{ event.location }}</p>
+                    <a href="{% url 'event_detail' event.pk %}" class="text-blue-600 hover:text-blue-800 font-medium">Learn More →</a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-span-3 text-center py-8">
+                <p class="text-gray-500">No upcoming events at the moment.</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-10">
+            <a href="{% url 'events' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium inline-block transition">View All Events</a>
+        </div>
+    </div>
+</section>
+
+<!-- Latest Articles -->
+<section class="bg-gray-100 py-16">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold mb-2">Latest Articles</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Stay updated with the latest trends and insights in AI technology.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for article in latest_articles %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                {% if article.image %}
+                <img src="{{ article.image.url }}" alt="{{ article.title }}" class="w-full h-48 object-cover">
+                {% else %}
+                <img src="https://via.placeholder.com/400x200" alt="{{ article.title }}" class="w-full h-48 object-cover">
+                {% endif %}
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="text-gray-500 text-sm">
+                            {{ article.created_at|date:"F j, Y" }}
+                        </div>
+                        <span class="mx-2 text-gray-300">•</span>
+                        <div class="text-gray-500 text-sm">
+                            By {{ article.author.get_full_name|default:article.author.username }}
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">{{ article.title }}</h3>
+                    <p class="text-gray-600 mb-4">{{ article.content|truncatewords:20 }}</p>
+                    <a href="{% url 'article_detail' article.pk %}" class="text-blue-600 hover:text-blue-800 font-medium">Read More →</a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-span-3 text-center py-8">
+                <p class="text-gray-500">No articles available at the moment.</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-10">
+            <a href="{% url 'articles' %}" class="text-blue-600 hover:text-blue-800 font-medium">View All Articles →</a>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="bg-gradient-to-r from-blue-600 to-indigo-800 text-white py-16">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl font-bold mb-4">Ready to Transform Your Workplace?</h2>
+        <p class="text-xl mb-8 max-w-2xl mx-auto">Schedule a demo today and discover how our AI solutions can enhance your digital employee experience.</p>
+        <a href="{% url 'request_demo' %}" class="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 rounded-md font-bold text-lg inline-block transition">Request a Demo</a>
+    </div>
+</section>
+{% endblock %}

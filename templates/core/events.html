@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}Events - AI-Solutions{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-blue-600 to-indigo-800 text-white py-16">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">Events</h1>
+        <p class="text-xl max-w-3xl mx-auto">Join us at our upcoming events to learn more about AI technology and network with industry professionals.</p>
+    </div>
+</section>
+
+<!-- Upcoming Events -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-8">Upcoming Events</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for event in upcoming_events %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden transition transform hover:-translate-y-1 hover:shadow-lg">
+                {% if event.image %}
+                <img src="{{ event.image.url }}" alt="{{ event.title }}" class="w-full h-56 object-cover">
+                {% else %}
+                <img src="https://via.placeholder.com/600x400" alt="{{ event.title }}" class="w-full h-56 object-cover">
+                {% endif %}
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">
+                            {{ event.date|date:"F j, Y" }}
+                        </div>
+                        <div class="ml-2 text-gray-500 text-sm">
+                            {{ event.date|date:"g:i A" }}
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">{{ event.title }}</h3>
+                    <p class="text-gray-600 mb-4">{{ event.description|truncatewords:20 }}</p>
+                    <p class="text-gray-500 mb-4"><i class="fas fa-map-marker-alt mr-2"></i>{{ event.location }}</p>
+                    <a href="{% url 'event_detail' event.pk %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium inline-block transition">View Details</a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-span-3 text-center py-12 bg-white rounded-lg shadow-md">
+                <div class="text-gray-500 mb-4">
+                    <i class="far fa-calendar-alt text-5xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-2">No Upcoming Events</h3>
+                <p class="text-gray-600">We're currently planning new events. Check back soon for updates!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Past Events -->
+<section class="bg-gray-100 py-16">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-8">Past Events</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for event in past_events %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                {% if event.image %}
+                <img src="{{ event.image.url }}" alt="{{ event.title }}" class="w-full h-56 object-cover opacity-75">
+                {% else %}
+                <img src="https://via.placeholder.com/600x400" alt="{{ event.title }}" class="w-full h-56 object-cover opacity-75">
+                {% endif %}
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gray-100 text-gray-600 text-xs font-semibold px-3 py-1 rounded-full">
+                            {{ event.date|date:"F j, Y" }}
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">{{ event.title }}</h3>
+                    <p class="text-gray-600 mb-4">{{ event.description|truncatewords:20 }}</p>
+                    <p class="text-gray-500 mb-4"><i class="fas fa-map-marker-alt mr-2"></i>{{ event.location }}</p>
+                    <a href="{% url 'event_detail' event.pk %}" class="text-blue-600 hover:text-blue-800 font-medium">View Recap →</a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-span-3 text-center py-12 bg-white rounded-lg shadow-md">
+                <p class="text-gray-600">No past events to display.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Subscribe to Events -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-800 rounded-lg shadow-xl p-8 md:p-12">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-2/3 mb-8 md:mb-0 md:pr-8 text-white">
+                    <h2 class="text-3xl font-bold mb-4">Stay Updated on Our Events</h2>
+                    <p class="text-xl mb-4">Subscribe to our newsletter to receive notifications about upcoming events and exclusive content.</p>
+                    <form class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+                        <input type="email" placeholder="Your email address" class="px-4 py-3 rounded-md flex-grow focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <button type="submit" class="bg-white text-blue-600 hover:bg-gray-100 px-6 py-3 rounded-md font-medium transition">Subscribe</button>
+                    </form>
+                </div>
+                <div class="md:w-1/3 text-center">
+                    <div class="text-white text-6xl">
+                        <i class="far fa-envelope-open"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

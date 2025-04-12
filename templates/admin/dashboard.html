@@ -1,0 +1,327 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Admin Dashboard - AI-Solutions{% endblock %}
+
+{% block content %}
+<!-- Admin Header -->
+<section class="bg-gray-800 text-white py-8">
+    <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-bold">Admin Dashboard</h1>
+                <p class="text-gray-300">Welcome back, {{ request.user.first_name|default:request.user.username }}</p>
+            </div>
+            <div>
+                <a href="{% url 'admin:logout' %}" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md font-medium inline-block transition">Logout</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Dashboard Stats -->
+<section class="py-8">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center">
+                    <div class="bg-blue-100 text-blue-600 p-3 rounded-full mr-4">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div>
+                        <p class="text-gray-500">Total Contacts</p>
+                        <h3 class="text-2xl font-bold">{{ total_contacts }}</h3>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <a href="{% url 'admin:core_contact_changelist' %}" class="text-blue-600 hover:text-blue-800 text-sm">View all contacts →</a>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center">
+                    <div class="bg-green-100 text-green-600 p-3 rounded-full mr-4">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div>
+                        <p class="text-gray-500">Upcoming Events</p>
+                        <h3 class="text-2xl font-bold">{{ upcoming_events_count }}</h3>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <a href="{% url 'admin:core_event_changelist' %}" class="text-blue-600 hover:text-blue-800 text-sm">Manage events →</a>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center">
+                    <div class="bg-purple-100 text-purple-600 p-3 rounded-full mr-4">
+                        <i class="fas fa-comment-dots"></i>
+                    </div>
+                    <div>
+                        <p class="text-gray-500">Testimonials</p>
+                        <h3 class="text-2xl font-bold">{{ testimonials_count }}</h3>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <a href="{% url 'admin:core_testimonial_changelist' %}" class="text-blue-600 hover:text-blue-800 text-sm">View testimonials →</a>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center">
+                    <div class="bg-yellow-100 text-yellow-600 p-3 rounded-full mr-4">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <div>
+                        <p class="text-gray-500">Demo Requests</p>
+                        <h3 class="text-2xl font-bold">{{ demo_requests_count }}</h3>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <a href="{% url 'admin:core_demorequest_changelist' %}" class="text-blue-600 hover:text-blue-800 text-sm">View requests →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Recent Activity -->
+<section class="py-8">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col lg:flex-row space-y-8 lg:space-y-0 lg:space-x-8">
+            <!-- Recent Contacts -->
+            <div class="lg:w-1/2">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-gray-50 px-6 py-4 border-b">
+                        <h2 class="text-xl font-bold">Recent Contacts</h2>
+                    </div>
+                    <div class="p-6">
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead>
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    {% for contact in recent_contacts %}
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="font-medium text-gray-900">{{ contact.name }}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-gray-500">{{ contact.email }}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-gray-500">{{ contact.created_at|date:"M d, Y" }}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <a href="{% url 'admin:core_contact_change' contact.id %}" class="text-blue-600 hover:text-blue-900">View</a>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="4" class="px-6 py-4 text-center text-gray-500">
+                                            No recent contacts
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="mt-4 text-right">
+                            <a href="{% url 'admin:core_contact_changelist' %}" class="text-blue-600 hover:text-blue-800 text-sm">View all contacts →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Demo Requests -->
+            <div class="lg:w-1/2">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-gray-50 px-6 py-4 border-b">
+                        <h2 class="text-xl font-bold">Recent Demo Requests</h2>
+                    </div>
+                    <div class="p-6">
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead>
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Solution</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    {% for request in recent_demo_requests %}
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="font-medium text-gray-900">{{ request.name }}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-gray-500">{{ request.company }}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-gray-500">{{ request.get_solutions_display }}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            {% if request.status == 'pending' %}
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                                Pending
+                                            </span>
+                                            {% elif request.status == 'scheduled' %}
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                Scheduled
+                                            </span>
+                                            {% elif request.status == 'completed' %}
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                                Completed
+                                            </span>
+                                            {% else %}
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                                {{ request.status|title }}
+                                            </span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <a href="{% url 'admin:core_demorequest_change' request.id %}" class="text-blue-600 hover:text-blue-900">View</a>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                                            No recent demo requests
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="mt-4 text-right">
+                            <a href="{% url 'admin:core_demorequest_changelist' %}" class="text-blue-600 hover:text-blue-800 text-sm">View all requests →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Upcoming Events -->
+<section class="py-8">
+    <div class="container mx-auto px-4">
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="bg-gray-50 px-6 py-4 border-b">
+                <h2 class="text-xl font-bold">Upcoming Events</h2>
+            </div>
+            <div class="p-6">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead>
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Registrations</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            {% for event in upcoming_events %}
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="font-medium text-gray-900">{{ event.title }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-gray-500">{{ event.date|date:"M d, Y" }} at {{ event.date|date:"g:i A" }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-gray-500">{{ event.location }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-gray-500">{{ event.registrations.count }} / {{ event.capacity|default:"∞" }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="{% url 'admin:core_event_change' event.id %}" class="text-blue-600 hover:text-blue-900 mr-3">Edit</a>
+                                    <a href="{% url 'event_detail' event.slug %}" class="text-green-600 hover:text-green-900" target="_blank">View</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                                    No upcoming events
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-4 text-right">
+                    <a href="{% url 'admin:core_event_changelist' %}" class="text-blue-600 hover:text-blue-800 text-sm">Manage all events →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Actions -->
+<section class="py-8">
+    <div class="container mx-auto px-4">
+        <h2 class="text-2xl font-bold mb-6">Quick Actions</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <a href="{% url 'admin:core_event_add' %}" class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition">
+                <div class="flex items-center">
+                    <div class="bg-blue-100 text-blue-600 p-3 rounded-full mr-4">
+                        <i class="fas fa-calendar-plus"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold">Add New Event</h3>
+                        <p class="text-gray-500 text-sm">Create a new event or workshop</p>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="{% url 'admin:core_galleryimage_add' %}" class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition">
+                <div class="flex items-center">
+                    <div class="bg-purple-100 text-purple-600 p-3 rounded-full mr-4">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold">Upload Images</h3>
+                        <p class="text-gray-500 text-sm">Add new images to the gallery</p>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="{% url 'admin:core_testimonial_add' %}" class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition">
+                <div class="flex items-center">
+                    <div class="bg-green-100 text-green-600 p-3 rounded-full mr-4">
+                        <i class="fas fa-comment-alt"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold">Add Testimonial</h3>
+                        <p class="text-gray-500 text-sm">Add a new client testimonial</p>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="{% url 'admin:auth_user_add' %}" class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition">
+                <div class="flex items-center">
+                    <div class="bg-yellow-100 text-yellow-600 p-3 rounded-full mr-4">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold">Add User</h3>
+                        <p class="text-gray-500 text-sm">Create a new admin user</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

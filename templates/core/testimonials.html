@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+{% block title %}Testimonials - AI-Solutions{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-blue-600 to-indigo-800 text-white py-16">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">Client Testimonials</h1>
+        <p class="text-xl max-w-3xl mx-auto">Hear what our clients have to say about our AI-powered solutions.</p>
+    </div>
+</section>
+
+<!-- Testimonials Grid -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for testimonial in testimonials %}
+            <div class="bg-white rounded-lg shadow-md p-8 transition transform hover:-translate-y-1 hover:shadow-lg">
+                <div class="flex items-center mb-6">
+                    {% if testimonial.image %}
+                    <img src="{{ testimonial.image.url }}" alt="{{ testimonial.name }}" class="w-16 h-16 rounded-full mr-4">
+                    {% else %}
+                    <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                        <span class="text-blue-600 text-xl font-bold">{{ testimonial.name|slice:":1" }}</span>
+                    </div>
+                    {% endif %}
+                    <div>
+                        <h4 class="font-bold">{{ testimonial.name }}</h4>
+                        <p class="text-gray-600 text-sm">{{ testimonial.position }}, {{ testimonial.company }}</p>
+                    </div>
+                </div>
+                <div class="mb-4 text-yellow-400">
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= testimonial.rating %}
+                        <i class="fas fa-star"></i>
+                        {% else %}
+                        <i class="far fa-star"></i>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <p class="text-gray-700 mb-4">"{{ testimonial.content }}"</p>
+                <p class="text-gray-500 text-sm">{{ testimonial.date|date:"F Y" }}</p>
+            </div>
+            {% empty %}
+            <div class="col-span-3 text-center py-12 bg-white rounded-lg shadow-md">
+                <div class="text-gray-500 mb-4">
+                    <i class="far fa-comment-dots text-5xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-2">No Testimonials Yet</h3>
+                <p class="text-gray-600">We're in the process of collecting client feedback. Check back soon!</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <div class="mt-12 flex justify-center">
+            <div class="inline-flex rounded-md shadow-sm">
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50">
+                    Previous
+                </a>
+                {% else %}
+                <span class="px-4 py-2 text-sm font-medium text-gray-300 bg-white border border-gray-300 rounded-l-md cursor-not-allowed">
+                    Previous
+                </span>
+                {% endif %}
+                
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <span class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-blue-600">
+                        {{ num }}
+                    </span>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a href="?page={{ num }}" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50">
+                        {{ num }}
+                    </a>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50">
+                    Next
+                </a>
+                {% else %}
+                <span class="px-4 py-2 text-sm font-medium text-gray-300 bg-white border border-gray-300 rounded-r-md cursor-not-allowed">
+                    Next
+                </span>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Share Your Experience -->
+<section class="bg-gray-100 py-16">
+    <div class="container mx-auto px-4">
+        <div class="bg-white rounded-lg shadow-xl p-8 md:p-12">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-2/3 mb-8 md:mb-0 md:pr-8">
+                    <h2 class="text-3xl font-bold mb-4">Share Your Experience</h2>
+                    <p class="text-gray-600 mb-6">We value your feedback! If you've used our AI solutions, we'd love to hear about your experience.</p>
+                    <form class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="name" class="block text-gray-700 font-medium mb-2">Full Name</label>
+                                <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label for="company" class="block text-gray-700 font-medium mb-2">Company</label>
+                                <input type="text" id="company" name="company" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="position" class="block text-gray-700 font-medium mb-2">Position</label>
+                            <input type="text" id="position" name="position" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">Rating</label>
+                            <div class="flex space-x-2 text-2xl">
+                                <input type="radio" id="star5" name="rating" value="5" class="hidden">
+                                <label for="star5" class="text-gray-300 hover:text-yellow-400 cursor-pointer"><i class="far fa-star"></i></label>
+                                
+                                <input type="radio" id="star4" name="rating" value="4" class="hidden">
+                                <label for="star4" class="text-gray-300 hover:text-yellow-400 cursor-pointer"><i class="far fa-star"></i></label>
+                                
+                                <input type="radio" id="star3" name="rating" value="3" class="hidden">
+                                <label for="star3" class="text-gray-300 hover:text-yellow-400 cursor-pointer"><i class="far fa-star"></i></label>
+                                
+                                <input type="radio" id="star2" name="rating" value="2" class="hidden">
+                                <label for="star2" class="text-gray-300 hover:text-yellow-400 cursor-pointer"><i class="far fa-star"></i></label>
+                                
+                                <input type="radio" id="star1" name="rating" value="1" class="hidden">
+                                <label for="star1" class="text-gray-300 hover:text-yellow-400 cursor-pointer"><i class="far fa-star"></i></label>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="testimonial" class="block text-gray-700 font-medium mb-2">Your Testimonial</label>
+                            <textarea id="testimonial" name="testimonial" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                        </div>
+                        <div>
+                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium transition">Submit Testimonial</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="md:w-1/3">
+                    <img src="https://via.placeholder.com/400x300" alt="Testimonials" class="rounded-lg shadow-md">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Star rating functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const stars = document.querySelectorAll('label[for^="star"]');
+        
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                const value = this.getAttribute('for').replace('star', '');
+                
+                // Reset all stars
+                stars.forEach(s => {
+                    s.innerHTML = '<i class="far fa-star"></i>';
+                    s.classList.remove('text-yellow-400');
+                    s.classList.add('text-gray-300');
+                });
+                
+                // Fill stars up to the selected one
+                for (let i = 5; i >= value; i--) {
+                    const currentStar = document.querySelector(`label[for="star${i}"]`);
+                    currentStar.innerHTML = '<i class="fas fa-star"></i>';
+                    currentStar.classList.remove('text-gray-300');
+                    currentStar.classList.add('text-yellow-400');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

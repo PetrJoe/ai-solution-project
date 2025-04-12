@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ solution.title }} - AI-Solutions{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-blue-600 to-indigo-800 text-white py-16">
+    <div class="container mx-auto px-4">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">{{ solution.title }}</h1>
+        <p class="text-xl max-w-3xl">{{ solution.description|truncatewords:30 }}</p>
+    </div>
+</section>
+
+<!-- Solution Details -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col lg:flex-row">
+            <!-- Main Content -->
+            <div class="lg:w-2/3 lg:pr-12 mb-10 lg:mb-0">
+                {% if solution.image %}
+                <img src="{{ solution.image.url }}" alt="{{ solution.title }}" class="w-full h-auto rounded-lg shadow-md mb-8">
+                {% else %}
+                <img src="https://via.placeholder.com/800x500" alt="{{ solution.title }}" class="w-full h-auto rounded-lg shadow-md mb-8">
+                {% endif %}
+                
+                <div class="prose max-w-none">
+                    <h2 class="text-3xl font-bold mb-6">Overview</h2>
+                    <p class="text-gray-700 mb-6">{{ solution.description }}</p>
+                    
+                    <h2 class="text-3xl font-bold mb-6">Key Features</h2>
+                    <div class="bg-gray-100 p-6 rounded-lg mb-8">
+                        {{ solution.features|linebreaks }}
+                    </div>
+                    
+                    <h2 class="text-3xl font-bold mb-6">How It Works</h2>
+                    <p class="text-gray-700 mb-4">Our solution leverages advanced AI algorithms to analyze and optimize your workplace processes. Here's how it works:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                            <div class="text-blue-600 text-3xl mb-4">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">1. Data Collection</h3>
+                            <p class="text-gray-600">Securely gather relevant data from your existing systems.</p>
+                        </div>
+                        
+                        <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                            <div class="text-blue-600 text-3xl mb-4">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">2. AI Processing</h3>
+                            <p class="text-gray-600">Our AI algorithms analyze the data to identify patterns and insights.</p>
+                        </div>
+                        
+                        <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                            <div class="text-blue-600 text-3xl mb-4">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">3. Optimization</h3>
+                            <p class="text-gray-600">Implement optimized workflows and monitor improvements.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="lg:w-1/3">
+                <div class="bg-gray-100 rounded-lg p-6 mb-8 sticky top-8">
+                    <h3 class="text-xl font-bold mb-4">Interested in this Solution?</h3>
+                    <p class="text-gray-600 mb-6">Schedule a demo to see how this solution can benefit your organization.</p>
+                    <a href="{% url 'request_demo' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium block text-center transition">Request a Demo</a>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                    <h3 class="text-xl font-bold mb-4">Benefits</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-2"><i class="fas fa-check-circle mt-1"></i></span>
+                            <span class="text-gray-700">Increased employee productivity</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-2"><i class="fas fa-check-circle mt-1"></i></span>
+                            <span class="text-gray-700">Reduced operational costs</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-2"><i class="fas fa-check-circle mt-1"></i></span>
+                            <span class="text-gray-700">Enhanced decision-making capabilities</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-2"><i class="fas fa-check-circle mt-1"></i></span>
+                            <span class="text-gray-700">Improved employee satisfaction</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-2"><i class="fas fa-check-circle mt-1"></i></span>
+                            <span class="text-gray-700">Seamless integration with existing systems</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-bold mb-4">Have Questions?</h3>
+                    <p class="text-gray-600 mb-4">Our team is ready to answer any questions you may have about this solution.</p>
+                    <a href="{% url 'contact' %}" class="text-blue-600 hover:text-blue-800 font-medium">Contact Us →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Solutions -->
+<section class="bg-gray-100 py-16">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-8">Explore Other Solutions</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- This would ideally be populated with other solutions, but for now we'll use placeholders -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="https://via.placeholder.com/400x250" alt="Solution" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">AI-Powered Analytics</h3>
+                    <p class="text-gray-600 mb-4">Gain valuable insights from your data with our advanced analytics solution.</p>
+                    <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">Learn More →</a>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="https://via.placeholder.com/400x250" alt="Solution" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">Virtual Assistant</h3>
+                    <p class="text-gray-600 mb-4">Streamline tasks and boost productivity with our AI virtual assistant.</p>
+                    <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">Learn More →</a>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="https://via.placeholder.com/400x250" alt="Solution" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">Workflow Automation</h3>
+                    <p class="text-gray-600 mb-4">Automate repetitive tasks and focus on what matters most.</p>
+                    <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">Learn More →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

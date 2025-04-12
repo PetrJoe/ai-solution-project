@@ -1,0 +1,74 @@
+{% extends "admin/base.html" %}
+
+{% block admin_content %}
+<div class="mb-6">
+    <a href="{% url 'admin_demo_requests' %}" class="text-blue-600 hover:text-blue-800 flex items-center">
+        <i class="fas fa-arrow-left mr-2"></i> Back to Demo Requests
+    </a>
+</div>
+
+<div class="bg-white overflow-hidden shadow-md rounded-lg p-6">
+    <div class="border-b pb-4 mb-4">
+        <div class="flex justify-between items-start">
+            <h1 class="text-2xl font-bold mb-2">Demo Request from {{ demo.name }}</h1>
+            <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full 
+                {% if demo.status == 'pending' %}bg-yellow-100 text-yellow-800
+                {% elif demo.status == 'confirmed' %}bg-blue-100 text-blue-800
+                {% elif demo.status == 'completed' %}bg-green-100 text-green-800
+                {% else %}bg-red-100 text-red-800{% endif %}">
+                {{ demo.status|title }}
+            </span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            <div>
+                <p class="text-sm text-gray-600"><span class="font-semibold">Company:</span> {{ demo.company }}</p>
+                <p class="text-sm text-gray-600"><span class="font-semibold">Email:</span> {{ demo.email }}</p>
+                <p class="text-sm text-gray-600"><span class="font-semibold">Phone:</span> {{ demo.phone }}</p>
+            </div>
+            <div>
+                <p class="text-sm text-gray-600"><span class="font-semibold">Preferred Date:</span> {{ demo.preferred_date|date:"F d, Y" }}</p>
+                <p class="text-sm text-gray-600"><span class="font-semibold">Preferred Time:</span> {{ demo.preferred_time|time:"H:i" }}</p>
+                <p class="text-sm text-gray-600"><span class="font-semibold">Requested on:</span> {{ demo.created_at|date:"F d, Y H:i" }}</p>
+            </div>
+        </div>
+    </div>
+    
+    {% if demo.message %}
+    <div class="mb-6">
+        <h3 class="text-lg font-semibold mb-2">Additional Information</h3>
+        <p class="whitespace-pre-line text-gray-700">{{ demo.message }}</p>
+    </div>
+    {% endif %}
+    
+    <div class="mt-8 pt-4 border-t">
+        <h3 class="text-lg font-semibold mb-4">Update Status</h3>
+        <form method="post" action="{% url 'admin_demo_detail' demo.id %}">
+            {% csrf_token %}
+            <div class="flex flex-wrap gap-2">
+                <button type="submit" name="status" value="pending" class="px-4 py-2 border {% if demo.status == 'pending' %}bg-yellow-100 border-yellow-500{% else %}bg-white border-gray-300{% endif %} rounded-md text-sm font-medium hover:bg-yellow-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+                    Pending
+                </button>
+                <button type="submit" name="status" value="confirmed" class="px-4 py-2 border {% if demo.status == 'confirmed' %}bg-blue-100 border-blue-500{% else %}bg-white border-gray-300{% endif %} rounded-md text-sm font-medium hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Confirmed
+                </button>
+                <button type="submit" name="status" value="completed" class="px-4 py-2 border {% if demo.status == 'completed' %}bg-green-100 border-green-500{% else %}bg-white border-gray-300{% endif %} rounded-md text-sm font-medium hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                    Completed
+                </button>
+                <button type="submit" name="status" value="cancelled" class="px-4 py-2 border {% if demo.status == 'cancelled' %}bg-red-100 border-red-500{% else %}bg-white border-gray-300{% endif %} rounded-md text-sm font-medium hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                    Cancelled
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <div class="mt-8 pt-4 border-t flex justify-between">
+        <a href="mailto:{{ demo.email }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <i class="fas fa-envelope mr-2"></i> Contact via Email
+        </a>
+        
+        <a href="tel:{{ demo.phone }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+            <i class="fas fa-phone mr-2"></i> Call Client
+        </a>
+    </div>
+</div>
+{% endblock %}

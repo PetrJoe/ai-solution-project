@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}AI-Solutions - Our Solutions{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-blue-600 to-indigo-800 text-white py-16">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">Our AI-Powered Solutions</h1>
+        <p class="text-xl max-w-3xl mx-auto">Discover innovative solutions designed to enhance your digital workplace experience.</p>
+    </div>
+</section>
+
+<!-- Solutions List -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for solution in solutions %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden transition transform hover:-translate-y-1 hover:shadow-lg">
+                {% if solution.image %}
+                <img src="{{ solution.image.url }}" alt="{{ solution.title }}" class="w-full h-56 object-cover">
+                {% else %}
+                <img src="https://via.placeholder.com/600x400" alt="{{ solution.title }}" class="w-full h-56 object-cover">
+                {% endif %}
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold mb-3">{{ solution.title }}</h3>
+                    <p class="text-gray-600 mb-4">{{ solution.description|truncatewords:25 }}</p>
+                    <div class="mt-4">
+                        <a href="{% url 'solution_detail' solution.pk %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium inline-block transition">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-span-3 text-center py-12">
+                <div class="text-gray-500 mb-4">
+                    <i class="fas fa-search text-5xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-2">No Solutions Found</h3>
+                <p class="text-gray-600">We're currently updating our solutions catalog. Please check back soon.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="bg-gray-100 py-16">
+    <div class="container mx-auto px-4">
+        <div class="bg-white rounded-lg shadow-md p-8 md:p-12">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-2/3 mb-8 md:mb-0 md:pr-8">
+                    <h2 class="text-3xl font-bold mb-4">Need a Custom Solution?</h2>
+                    <p class="text-gray-600 mb-4">Our team of experts can develop tailored AI solutions to address your specific business challenges. Contact us to discuss your requirements.</p>
+                    <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+                        <a href="{% url 'contact' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium inline-block text-center transition">Contact Us</a>
+                        <a href="{% url 'request_demo' %}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-md font-medium inline-block text-center transition">Request Demo</a>
+                    </div>
+                </div>
+                <div class="md:w-1/3">
+                    <img src="https://via.placeholder.com/400x300" alt="Custom Solutions" class="rounded-lg shadow-md">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

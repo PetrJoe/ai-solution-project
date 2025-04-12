@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us - AI-Solutions{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-blue-600 to-indigo-800 text-white py-16">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
+        <p class="text-xl max-w-3xl mx-auto">Have questions about our AI solutions? We're here to help.</p>
+    </div>
+</section>
+
+<!-- Contact Information -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col lg:flex-row">
+            <!-- Contact Form -->
+            <div class="lg:w-2/3 lg:pr-12 mb-10 lg:mb-0">
+                <h2 class="text-3xl font-bold mb-6">Get in Touch</h2>
+                <p class="text-gray-600 mb-8">Fill out the form below and our team will get back to you as soon as possible.</p>
+                
+                <form class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="name" class="block text-gray-700 font-medium mb-2">Full Name</label>
+                            <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-gray-700 font-medium mb-2">Email Address</label>
+                            <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="company" class="block text-gray-700 font-medium mb-2">Company</label>
+                        <input type="text" id="company" name="company" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label for="subject" class="block text-gray-700 font-medium mb-2">Subject</label>
+                        <input type="text" id="subject" name="subject" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label for="message" class="block text-gray-700 font-medium mb-2">Message</label>
+                        <textarea id="message" name="message" rows="6" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                    </div>
+                    <div>
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium transition">Send Message</button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Contact Information -->
+            <div class="lg:w-1/3">
+                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                    <h3 class="text-xl font-bold mb-4">Contact Information</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <div class="text-blue-600 mr-3">
+                                <i class="fas fa-map-marker-alt mt-1"></i>
+                            </div>
+                            <div>
+                                <span class="block font-medium">Address</span>
+                                <span class="text-gray-600">123 AI Street, Tech Park<br>Sunderland, SR1 3SD<br>United Kingdom</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-blue-600 mr-3">
+                                <i class="fas fa-phone-alt mt-1"></i>
+                            </div>
+                            <div>
+                                <span class="block font-medium">Phone</span>
+                                <a href="tel:+441234567890" class="text-gray-600 hover:text-blue-600">+44 (0) 123 456 7890</a>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-blue-600 mr-3">
+                                <i class="fas fa-envelope mt-1"></i>
+                            </div>
+                            <div>
+                                <span class="block font-medium">Email</span>
+                                <a href="mailto:info@ai-solutions.com" class="text-gray-600 hover:text-blue-600">info@ai-solutions.com</a>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-blue-600 mr-3">
+                                <i class="far fa-clock mt-1"></i>
+                            </div>
+                            <div>
+                                <span class="block font-medium">Business Hours</span>
+                                <span class="text-gray-600">Monday - Friday: 9:00 AM - 5:00 PM<br>Saturday & Sunday: Closed</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                    <h3 class="text-xl font-bold mb-4">Connect With Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-600 hover:text-blue-600"><i class="fab fa-facebook-f text-xl"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-blue-400"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-blue-700"><i class="fab fa-linkedin-in text-xl"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-red-600"><i class="fab fa-youtube text-xl"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-pink-600"><i class="fab fa-instagram text-xl"></i></a>
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-r from-blue-600 to-indigo-800 rounded-lg shadow-md p-6 text-white">
+                    <h3 class="text-xl font-bold mb-4">Request a Demo</h3>
+                    <p class="mb-4">Interested in seeing our AI solutions in action? Schedule a personalized demo with our team.</p>
+                    <a href="{% url 'request_demo' %}" class="bg-white text-blue-600 hover:bg-gray-100 px-4 py-2 rounded-md font-medium inline-block transition">Request Demo</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map Section -->
+<section class="py-16 bg-gray-100">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-8 text-center">Find Us</h2>
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <!-- Replace with actual Google Maps embed code -->
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2290.8286853241394!2d-1.3839908233769422!3d54.90613997659731!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487e66b2e8bf5e49%3A0x7b5e13dc36be0c0!2sUniversity%20of%20Sunderland!5e0!3m2!1sen!2suk!4v1703161234567!5m2!1sen!2suk" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
+        
+        <div class="max-w-3xl mx-auto space-y-4">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <button class="flex justify-between items-center w-full text-left focus:outline-none">
+                    <h3 class="text-lg font-bold">What AI solutions do you offer?</h3>
+                    <i class="fas fa-chevron-down text-gray-500"></i>
+                </button>
+                <div class="mt-4 text-gray-600">
+                    <p>We offer a range of AI-powered solutions designed to enhance the digital employee experience, including virtual assistants, workflow automation, data analytics, and more. Each solution is tailored to meet the specific needs of your organization.</p>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <button class="flex justify-between items-center w-full text-left focus:outline-none">
+                    <h3 class="text-lg font-bold">How can AI improve our workplace productivity?</h3>
+                    <i class="fas fa-chevron-down text-gray-500"></i>
+                </button>
+                <div class="mt-4 text-gray-600">
+                    <p>Our AI solutions can automate repetitive tasks, provide intelligent insights from your data, streamline communication, and enhance decision-making processes. This allows your employees to focus on high-value work, resulting in increased productivity and job satisfaction.</p>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <button class="flex justify-between items-center w-full text-left focus:outline-none">
+                    <h3 class="text-lg font-bold">How long does implementation take?</h3>
+                    <i class="fas fa-chevron-down text-gray-500"></i>
+                </button>
+                <div class="mt-4 text-gray-600">
+                    <p>Implementation timelines vary depending on the complexity of the solution and your organization's requirements. Typically, our solutions can be implemented within 4-12 weeks. We work closely with your team to ensure a smooth integration process.</p>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <button class="flex justify-between items-center w-full text-left focus:outline-none">
+                    <h3 class="text-lg font-bold">Do you offer customized solutions?</h3>
+                    <i class="fas fa-chevron-down text-gray-500"></i>
+                </button>
+                <div class="mt-4 text-gray-600">
+                    <p>Yes, we specialize in developing customized AI solutions tailored to your specific business challenges and requirements. Our team works closely with you to understand your needs and create a solution that delivers maximum value.</p>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <button class="flex justify-between items-center w-full text-left focus:outline-none">
+                    <h3 class="text-lg font-bold">How secure are your AI solutions?</h3>
+                    <i class="fas fa-chevron-down text-gray-500"></i>
+                </button>
+                <div class="mt-4 text-gray-600">
+                    <p>Security is our top priority. All our AI solutions are built with robust security measures, including data encryption, secure authentication, and compliance with industry standards. We also provide regular security updates to ensure your data remains protected.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // FAQ accordion functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const faqButtons = document.querySelectorAll('.bg-white.rounded-lg button');
+        
+        faqButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                const icon = this.querySelector('i');
+                
+                // Toggle content visibility
+                if (content.style.display === 'none' || !content.style.display) {
+                    content.style.display = 'block';
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                } else {
+                    content.style.display = 'none';
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
