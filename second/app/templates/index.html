@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Comparison Project</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <header class="bg-blue-600 text-white py-6 px-4">
+        <h1 class="text-3xl font-bold text-center">University Course Management System</h1>
+        <h2 class="text-xl text-center mt-2">Database Comparison: PostgreSQL vs MongoDB</h2>
+    </header>
+    
+    <nav class="bg-blue-500 p-4">
+        <ul class="flex justify-center space-x-6">
+            <li><a href="{{ url_for('index') }}" class="text-white hover:text-blue-200">Home</a></li>
+            <li><a href="{{ url_for('comparison') }}" class="text-white hover:text-blue-200">Database Comparison</a></li>
+            <li><a href="{{ url_for('init_db') }}" class="text-white hover:text-blue-200">Initialize Databases</a></li>
+        </ul>
+    </nav>
+    
+    <main class="container mx-auto px-4 py-8">
+        <section class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Project Overview</h2>
+            <p class="text-gray-600 mb-6">This project demonstrates the implementation of a University Course Management System using both PostgreSQL (object-relational) and MongoDB (NoSQL document store) databases.</p>
+            
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">UML Class Diagram</h3>
+            <div class="uml-diagram mb-6">
+                <img src="{{ url_for('static', filename='img/uml_diagram.png') }}" alt="UML Class Diagram" class="mx-auto">
+            </div>
+            
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Key Features</h3>
+            <ul class="list-disc pl-6 text-gray-600 space-y-2">
+                <li>Object-Relational features in PostgreSQL (inheritance, arrays, user-defined types)</li>
+                <li>Document-oriented features in MongoDB (embedded documents, arrays)</li>
+                <li>Complex queries in both database systems</li>
+                <li>Comparison of data modeling approaches</li>
+            </ul>
+        </section>
+    </main>
+    
+    <footer class="bg-gray-800 text-white text-center py-4 mt-8">
+        <p>© 2023 Database Comparison Project</p>
+    </footer>
+</body>
+</html>

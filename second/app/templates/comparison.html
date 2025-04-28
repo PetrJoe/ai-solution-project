@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Comparison</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <header class="bg-indigo-700 text-white py-6 px-4 shadow-md">
+        <div class="container mx-auto">
+            <h1 class="text-3xl font-bold">University Course Management System</h1>
+            <h2 class="text-xl mt-2">Database Comparison: PostgreSQL vs MongoDB</h2>
+        </div>
+    </header>
+    
+    <nav class="bg-indigo-800 text-white shadow-md">
+        <div class="container mx-auto px-4">
+            <ul class="flex space-x-6 py-3">
+                <li><a href="{{ url_for('index') }}" class="hover:text-indigo-200 transition">Home</a></li>
+                <li><a href="{{ url_for('comparison') }}" class="font-bold border-b-2 border-white">Database Comparison</a></li>
+                <li><a href="{{ url_for('init_db') }}" class="hover:text-indigo-200 transition">Initialize Databases</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <main class="container mx-auto px-4 py-8">
+        <section>
+            <h2 class="text-2xl font-bold mb-6 text-indigo-700">Database Comparison</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <div class="bg-white rounded-lg shadow-md p-6 border-t-4 border-blue-500">
+                    <h3 class="text-xl font-bold text-blue-600 mb-4">PostgreSQL (Object-Relational)</h3>
+                    
+                    <div class="mb-6 bg-blue-50 p-4 rounded-lg">
+                        <h4 class="font-bold text-blue-700 mb-2">Object-Relational Features Used</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><span class="font-semibold">Inheritance:</span> Person as a base class for Student and Faculty</li>
+                            <li><span class="font-semibold">Array Types:</span> For prerequisites and specializations</li>
+                            <li><span class="font-semibold">User-Defined Types:</span> Address as a composite type</li>
+                            <li><span class="font-semibold">Triggers:</span> For data validation (enrollment date check)</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-blue-700 mb-2">Complex Query Example</h4>
+                        <pre class="bg-gray-800 text-gray-100 p-4 rounded-lg text-sm overflow-x-auto mb-4">
+SELECT s.name as student_name, s.student_id, c.title as course_title, 
+       c.code as course_code, d.name as department_name, e.grade
+FROM student s
+INNER JOIN enrollment e ON s.id = e.student_id
+LEFT OUTER JOIN course c ON e.course_id = c.id
+FULL OUTER JOIN department d ON c.department_id = d.id
+ORDER BY s.name, c.title
+                        </pre>
+                        
+                        <button id="run-pg-query" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition">Run Query</button>
+                        <div id="pg-results" class="mt-4 overflow-x-auto"></div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-6 border-t-4 border-green-500">
+                    <h3 class="text-xl font-bold text-green-600 mb-4">MongoDB (NoSQL Document Store)</h3>
+                    
+                    <div class="mb-6 bg-green-50 p-4 rounded-lg">
+                        <h4 class="font-bold text-green-700 mb-2">Document Store Features Used</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><span class="font-semibold">Embedded Documents:</span> Faculty embedded in departments, enrollments embedded in students</li>
+                            <li><span class="font-semibold">Arrays:</span> For prerequisites, specializations, and enrolled students</li>
+                            <li><span class="font-semibold">Denormalization:</span> Department info embedded in courses</li>
+                            <li><span class="font-semibold">Reduced Collections:</span> 3 collections vs 6 tables in PostgreSQL</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-green-700 mb-2">Complex Query Example</h4>
+                        <pre class="bg-gray-800 text-gray-100 p-4 rounded-lg text-sm overflow-x-auto mb-4">
+db.courses.aggregate([
+{
+    '$lookup': {
+    'from': 'departments',
+    'localField': 'department.name',
+    'foreignField': 'name',
+    'as': 'department_info'
+    }
+},
+{
+    '$unwind': {
+    'path': '$department_info',
+    'preserveNullAndEmptyArrays': true
+    }
+},
+{
+    '$project': {
+    'code': 1,
+    'title': 1,
+    'department_name': '$department.name',
+    'students_enrolled': 1,
+    'faculty': '$department_info.faculty'
+    }
+}
+])
+                        </pre>
+                        
+                        <button id="run-mongo-query" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded transition">Run Query</button>
+                        <div id="mongo-results" class="mt-4 overflow-x-auto"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6 border-t-4 border-purple-500">
+                <h3 class="text-xl font-bold text-purple-700 mb-4">Critical Discussion: PostgreSQL vs MongoDB Implementation</h3>
+                <div class="space-y-4 text-gray-700">
+                    <p>
+                        The PostgreSQL implementation follows a traditional object-relational approach with tables for each entity and relationships defined through foreign keys. The object-relational features like inheritance, arrays, and user-defined types enhance the model beyond a purely relational design.
+                    </p>
+                    <p>
+                        In contrast, the MongoDB implementation takes advantage of document embedding to reduce the number of collections needed. By embedding faculty within departments and enrollments within students, we eliminate the need for separate collections and complex joins. This approach aligns with MongoDB's strengths in handling hierarchical data and reduces query complexity for common operations.
+                    </p>
+                    <p>
+                        While PostgreSQL enforces schema and data integrity through constraints and triggers, MongoDB offers flexibility in document structure. This flexibility is particularly useful for evolving data models but requires application-level validation to ensure data consistency.
+                    </p>
+                    <p>
+                        The choice between these database systems depends on the specific requirements of the application. PostgreSQL is better suited for applications with complex transactions and strict data integrity requirements, while MongoDB excels in scenarios requiring schema flexibility and hierarchical data representation.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="bg-gray-800 text-white py-4 mt-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2023 Database Comparison Project</p>
+        </div>
+    </footer>
+    
+    <script>
+        $(document).ready(function() {
+            $('#run-pg-query').click(function() {
+                $.getJSON('/api/postgresql/complex-query', function(data) {
+                    let html = '<table class="min-w-full bg-white border border-gray-300"><thead class="bg-gray-100"><tr><th class="py-2 px-4 border-b">Student</th><th class="py-2 px-4 border-b">Student ID</th><th class="py-2 px-4 border-b">Course</th><th class="py-2 px-4 border-b">Course Code</th><th class="py-2 px-4 border-b">Department</th><th class="py-2 px-4 border-b">Grade</th></tr></thead><tbody>';
+                    
+                    data.forEach(function(row, index) {
+                        const rowClass = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
+                        html += `<tr class="${rowClass}">
+                            <td class="py-2 px-4 border-b">${row.student_name}</td>
+                            <td class="py-2 px-4 border-b">${row.student_id}</td>
+                            <td class="py-2 px-4 border-b">${row.course_title}</td>
+                            <td class="py-2 px-4 border-b">${row.course_code}</td>
+                            <td class="py-2 px-4 border-b">${row.department_name}</td>
+                            <td class="py-2 px-4 border-b">${row.grade}</td>
+                        </tr>`;
+                    });
+                    
+                    html += '</tbody></table>';
+                    $('#pg-results').html(html);
+                });
+            });
+            
+            $('#run-mongo-query').click(function() {
+                $.getJSON('/api/mongodb/complex-query', function(data) {
+                    let html = '<table class="min-w-full bg-white border border-gray-300"><thead class="bg-gray-100"><tr><th class="py-2 px-4 border-b">Course Code</th><th class="py-2 px-4 border-b">Course Title</th><th class="py-2 px-4 border-b">Department</th><th class="py-2 px-4 border-b">Students Enrolled</th><th class="py-2 px-4 border-b">Faculty</th></tr></thead><tbody>';
+                    
+                    data.forEach(function(course, index) {
+                        const rowClass = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
+                        let students = course.students_enrolled.map(s => `<div class="mb-1">${s.name} <span class="text-gray-500">(${s.grade})</span></div>`).join('');
+                        let faculty = course.faculty ? course.faculty.map(f => `<div class="mb-1">${f.name}</div>`).join('') : 'None';
+                        
+                        html += `<tr class="${rowClass}">
+                            <td class="py-2 px-4 border-b">${course.code}</td>
+                            <td class="py-2 px-4 border-b">${course.title}</td>
+                            <td class="py-2 px-4 border-b">${course.department_name}</td>
+                            <td class="py-2 px-4 border-b">${students}</td>
+                            <td class="py-2 px-4 border-b">${faculty}</td>
+                        </tr>`;
+                    });
+                    
+                    html += '</tbody></table>';
+                    $('#mongo-results').html(html);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 from flask import Flask
-from second.config import Config
+from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from pymongo import MongoClient
 
@@ -13,4 +13,4 @@ db = SQLAlchemy(app)
 mongo_client = MongoClient(app.config['MONGO_URI'])
 mongo_db = mongo_client.get_database()
 
-from second.app.scripts import routes
+from app.scripts import routes

@@ -39,9 +39,12 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4. Run migrations
+### 4. Run migrations && makemigrations
 ```bash
 python manage.py migrate
+```
+```bash
+python manage.py makemigrations
 ```
 
 ### 5. Create a superuser (optional)

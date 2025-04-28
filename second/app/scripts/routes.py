@@ -32,7 +32,8 @@ def postgresql_students():
 def postgresql_complex_query():
     # Example of a complex query with multiple joins
     # This query gets all students, their enrolled courses, and the departments offering those courses
-    conn = psycopg2.connect(app.config['SQLALCHEMY_DATABASE_URI'])
+    # conn = psycopg2.connect(app.config['SQLALCHEMY_DATABASE_URI'])
+    conn = psycopg2.connect(app.config['POSTGRESQL_DSN'])
     cursor = conn.cursor()
     
     query = """
